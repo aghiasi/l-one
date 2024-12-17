@@ -101,6 +101,9 @@ main {
 .options {
     width: 100%;
     margin: 10px;
+    display:flex; 
+    justify-content:space-between;
+    padding: 0 10px ;
 }
 
 .add-user {
@@ -312,4 +315,7 @@ canvas {
 
 .pagi * {
     display: inline-block;
+}
+th{
+    text-align:start;
 }

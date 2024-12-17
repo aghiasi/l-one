@@ -7,10 +7,18 @@
     <button class="sign-tab-btn">نمودارها</button>
     <div class="table-tab">
         <div class="options">
-            <button id="add" class="add-user">اضافه کردن کاربر جدید</button>
-            <button id="data" class="get-all-data add-user">
-                دانلود مشخصات تمامی کاربران
-            </button>
+            <div>
+                <button id="add" class="add-user">اضافه کردن کاربر جدید</button>
+                <button id="data" class="get-all-data add-user">
+                    دانلود مشخصات تمامی کاربران
+                </button>
+            </div>
+            <select class="pageSize" id="pageSize">
+                <option value="10" > 10 </option>
+                <option value="20" > 20 </option>
+                <option value="30" > 30 </option>
+                <option value="40" > 40 </option>
+            </select>
         </div>
         <table class="styled-table">
             <thead>
@@ -38,9 +46,7 @@
             <tbody id="tbody"></tbody>
         </table>
         <div class="pagi">
-            <button id="next" class="pagi-btn">بعدی</button>
             <div id="n-p" class="next-prev"></div>
-            <button id="perv" class="pagi-btn">قبلی</button>
         </div>
     </div>
     <div class="sign-tab">

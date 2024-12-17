@@ -3,13 +3,19 @@
   let city = [];
   let state = [];
   let page = 1;
-  let limit = 10;
+    let limit = 10; 
+    let pageSize = 10;
   let res = await (
-      await fetch(`/Home/Getusers`)
+    await fetch(`/Home/Getusers/?pageIndex=1&pageSize=${pageSize}`)
     ).json();
-    console.log(res);
-    res.map((i, index) => {
-            $("tbody").append(`
+    let index = res.pageIndex;
+    let total = res.totalPages;
+    let next = res.hasNextPage;
+    let perv = res.hasPreviousPage; 
+  console.log(res);
+  const renderTable = (res) => {
+    res.items.map((i, index) => {
+      $("tbody").append(`
                 <tr>
                     <td class = 'f-num' >${index + 1}</td>
                     <td class = 'f-num' >${i.id}</td>
@@ -20,17 +26,77 @@
                     <td>${i.city}</td>
                     <td>
                     <button id=${i.id} class='icon-btn'>
-                    <img id=${i.id
-                } class='trash' src="../icons/tashcan.svg" alt="delete">
+                    <img id=${
+                      i.id
+                    } class='trash' src="../icons/tashcan.svg" alt="delete">
                     </button>
                 </td>
                 <td><input type="checkbox" name=${i.id}/></td>
 </tr>
                 `);
-    })  
-    $("#add").on("click", () => {
-        $("#modal").show();
-    })
+    });
+  }; //f-n
+  const pagiApender = (apend) => {
+    $(".pagi").append(apend);
+  }; //f-n
+  const pagination = (index ,total,next ,prev) => {
+      if (!prev) {
+          $(".pagi").empty();
+      pagiApender(`
+            <button disabled id="1">...</button>
+            <button disabled >1</button>
+`);
+      if (next) {
+        pagiApender(`
+            <button class='pagi-btn' id=${index + 1}>${
+          index + 1
+        }</button>
+            <button class='pagi-btn' id=${total}> ${
+          total
+        } </button>
+`);
+      } else {
+        pagiApender(`
+            <button disabled>...</button>
+`);
+      }
+      } else {
+          $(".pagi").empty();
+      pagiApender(`
+            <button  id="1" class ='pagi-btn'>اولین صفحه</button>
+            <button class='pagi-btn' id=${index - 1 }>${index - 1}</button>
+            <button disabled >${index}</button >
+`);
+      if (next) {
+        pagiApender(`
+            <button class='pagi-btn' id=${index + 1}>${
+          index + 1
+        }</button>
+            <button class='pagi-btn' id=${index}> ${total
+        } </button>
+`);
+      } else {
+        pagiApender(`
+            <button disabled>...</button>
+`);
+      }
+    }
+    }; //f-n
+    renderTable(res);
+    pagination(res.pageIndex, res.totalPages, res.hasNextPage, res.hasPreviousPage);
+  $("#pageSize").on("change", async () => {
+    pageSize = $("#pageSize").val();
+    let res = await (
+      await fetch(`/Home/getusers/?pageIndex=1&pageSize=${pageSize}`)
+    ).json();
+    console.log(res);
+    $("tbody").empty();
+    renderTable(res);
+      pagination(res.pageIndex, res.totalPages, res.hasNextPage, res.hasPreviousPage);
+  });
+  $("#add").on("click", () => {
+    $("#modal").show();
+  });
   $("form").on("submit", (e) => {
     e.preventDefault();
     const name = $('[name="name"]');
@@ -70,7 +136,7 @@
           "content-type": "application/json",
         },
         body: JSON.stringify({
-            id: parseInt(id.val()),
+          id: parseInt(id.val()),
           name: name.val(),
           fname: fname.val(),
           phone: phone.val(),
@@ -89,7 +155,7 @@
     window.location.reload();
   });
   $("#data").on("click", async () => {
-    const res = await (await fetch("http://localhost:4000/users")).json();
+    const res = await (await fetch("/home/getalluser")).json();
     const worksheet = XLSX.utils.json_to_sheet(res);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
@@ -113,12 +179,7 @@
   });
   $("#dlt-all").on("click", () => {
     for (let i of ckeckBoxVals) {
-      fetch(`http://localhost:4000/users/${i}`, {
-        method: "DELETE",
-        headers: {
-          "content-type": "application/json",
-        },
-      });
+      fetch(`/home/deleteuser/${i}`);
     }
   });
   $(".table-tab-btn").on("click", () => {
@@ -130,17 +191,15 @@
     $(".sign-tab").show();
   });
 
-
-    $("#search").on('keyup', async () => {
-        const id = $("#search").val();
-        if (id) {
-            let res = await fetch(`/Home/searchuser/` + id);
-            res = await res.json();
-            console.log(res)
-            if (res.length > 0) {
-                $("tbody").empty();
-                res.map((i, index) => {
-                    $("tbody").append(`
+  $("#search").on("keyup", async () => {
+    const id = $("#search").val();
+    if (id) {
+      let res = await fetch(`/Home/searchuser/` + id);
+      res = await res.json();
+      if (res.items.length > 0) {
+        $("tbody").empty();
+        res.items.map((i, index) => {
+          $("tbody").append(`
                 <tr>
                     <td class = 'f-num' >${index + 1}</td>
                     <td class = 'f-num' >${i.id}</td>
@@ -151,17 +210,27 @@
                     <td>${i.city}</td>
                     <td>
                     <button id=${i.id} class='icon-btn'>
-                    <img id=${i.id
-                        } class='trash' src="../icons/tashcan.svg" alt="delete">
+                    <img id=${
+                      i.id
+                    } class='trash' src="../icons/tashcan.svg" alt="delete">
                     </button>
                 </td>
                 <td><input type="checkbox" name=${i.id}/></td>
 </tr>
                 `);
-                })  
-
-            }
-        }             
+        });
+      }
+    }
+  });
+  $(".cancle").on("click", (e) => {
+    $("#modal").hide();
+  });
+    $(".pagi-btn").on("click", async (e) => {
+         index = parseInt(e.target.id)
+         res = await (await fetch(`/Home/Getusers/?pageIndex=${index}&pageSize=${pageSize}`)).json();
+        $("tbody").empty();
+        renderTable(res)
+        
     })
   // the end of the scripts
 });

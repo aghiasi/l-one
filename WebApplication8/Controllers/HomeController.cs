@@ -73,18 +73,30 @@ namespace WebApplication8.Controllers
 
             if(result.Count != 0)
             {
-                return Ok(result);
-            }
-            else
-            {
                 var count = result.Count();
-                var user = result
+                var user = result 
                     .Skip((pageIndex - 1) * pageSize)
                     .Take(pageSize);
                 var totalPages = (int)Math.Ceiling(count / (double)pageSize);
                 var data = new PaginatedList<List<User>>(user.ToList(), pageIndex, totalPages);
                 return Ok(data);
             }
+            else
+            {
+                var count = allusers.Count();
+                var user = allusers
+                    .Skip((pageIndex - 1) * pageSize)
+                    .Take(pageSize);
+                var totalPages = (int)Math.Ceiling(count / (double)pageSize);
+                var data = new PaginatedList<List<User>>(user.ToList(), pageIndex, totalPages);
+                return Ok(data);
+            }
+        }
+        public IActionResult getalluser()
+        {
+            string json = System.IO.File.ReadAllText("data.json");
+            var result = JsonConvert.DeserializeObject<List<User>>(json);
+            return Ok(result);
         }
     }
 }

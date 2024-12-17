@@ -31,5 +31,4 @@ C:\Users\mo\source\repos\WebApplication8\WebApplication8\obj\Debug\net6.0\WebApp
 C:\Users\mo\source\repos\WebApplication8\WebApplication8\obj\Debug\net6.0\ref\WebApplication8.dll
 C:\Users\mo\source\repos\WebApplication8\WebApplication8\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\mo\source\repos\WebApplication8\WebApplication8\obj\Debug\net6.0\WebApplication8.csproj.CopyComplete
-C:\Users\mo\source\repos\WebApplication8\WebApplication8\bin\Debug\net6.0\Controllers\data.json
 C:\Users\mo\source\repos\WebApplication8\WebApplication8\bin\Debug\net6.0\data.json
