@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<nav><p>نوبار صفحه</p></nav>
+<main class="main">
+    <button class="table-tab-btn">لیست کاربران</button>
+    <button class="sign-tab-btn">نمودارها</button>
+    <div class="table-tab">
+        <div class="options">
+            <button id="add" class="add-user">اضافه کردن کاربر جدید</button>
+            <button id="data" class="get-all-data add-user">
+                دانلود مشخصات تمامی کاربران
+            </button>
+        </div>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>ردیف</th>
+                    <th>شماره پرسنلی</th>
+                    <th>نام</th>
+                    <th>نام خانوادگی</th>
+                    <th>شماره تماس</th>
+                    <th>استان</th>
+                    <th>شهر</th>
+                    <th>
+                        <input id="search" type="text" placeholder="جستجو" />
+                    </th>
+                    <th>
+                        <button id="de-all">
+                            <img id=""
+                                 class="trash"
+                                 src="./icons/tashcan.svg"
+                                 alt="" />
+                        </button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+        <div class="pagi">
+            <button id="next" class="pagi-btn">بعدی</button>
+            <div id="n-p" class="next-prev"></div>
+            <button id="perv" class="pagi-btn">قبلی</button>
+        </div>
+    </div>
+    <div class="sign-tab">
+        <div class="canv-container">
+            <canvas class="line-canvas" id="chart"></canvas>
+            <canvas class="doughnut"></canvas>
+        </div>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <h3>ایجاد کاربر جدید</h3>
+        <form id="submit">
+            <input class="input"
+                   type="number"
+                   name="id"
+                   placeholder="شماره پرسنلی" />
+            <input class="input" type="text" name="name" placeholder="نام " />
+            <input class="input"
+                   type="text"
+                   name="fname"
+                   placeholder="نام خانوادگی " />
+            <input class="input"
+                   type="number"
+                   name="phone"
+                   placeholder="شماره تماس " />
+            <input class="input" type="text" name="state" placeholder="استان " />
+            <input class="input" type="text" name="city" placeholder="شهر " />
+            <button class="cancle">انصراف</button>
+            <button class="addin" id="submit" type="submit">ثبت</button>
+        </form>
+    </div>
+</div>
+<div id="delete-modal" class="modal">
+    <div class="modal-content">
+        <h3>تمامی کاربران انتخاب شده حذف شود ؟</h3>
+        <button id="dlt-all" class="delete-all">بله</button>
+        <button class="cancle-delete-all">انصراف</button>
+    </div>
+</div>
